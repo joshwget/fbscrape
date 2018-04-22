@@ -16,6 +16,7 @@ function getPosts() {
         var rawText = article.childNodes[1].innerText
 
         posts.push({
+            'key': article.parentElement.id,
             'poster': poster,
             //'recipient': recipient,
             'raw_text': rawText,
