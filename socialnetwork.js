@@ -6,21 +6,21 @@ function getPosts() {
         var article = articles[i]
 
         var poster = getPoster(article)
-        var recipient = getRecipient(article)
+        //var recipient = getRecipient(article)
 
-        var footer = article.parentElement.querySelector('footer')
+        //var footer = article.parentElement.querySelector('footer')
 
-        var like = getLike(footer)
-        var comment = getComment(footer)
+        //var like = getLike(footer)
+        //var comment = getComment(footer)
 
         var rawText = article.childNodes[1].innerText
 
         posts.push({
             'poster': poster,
-            'recipient': recipient,
+            //'recipient': recipient,
             'raw_text': rawText,
-            'like': like,
-            'comment': comment
+            //'like': like,
+            //'comment': comment
         })
     }
 
