@@ -11,7 +11,7 @@ function getPosts() {
         var footer = article.parentElement.querySelector('footer')
 
         var like = getLike(footer)
-        var comment = getLike(footer)
+        var comment = getComment(footer)
 
         var rawText = article.childNodes[1].innerText
 
