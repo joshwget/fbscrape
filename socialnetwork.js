@@ -6,10 +6,14 @@ function getPosts() {
         var article = articles[i]
 
         var poster = getPoster(article)
+        var time = getTime(article)
         var recipient = getRecipient(article)
+
 
         var footer = article.parentElement.querySelector('footer')
 
+        var reactions = getReactions(footer)
+        var commentCount = getCommentCount(footer)
         var like = getLike(footer)
         var comment = getComment(footer)
 
@@ -18,8 +22,11 @@ function getPosts() {
         posts.push({
             'key': article.parentElement.id,
             'poster': poster,
+            'time': time,
             'recipient': recipient,
             'raw_text': rawText,
+            'reactions': reactions,
+            'comment_count': commentCount,
             'like': like,
             'comment': comment
         })
@@ -42,6 +49,14 @@ function getPoster(article) {
         'name': name,
         'picture_url': pictureUrl
     }
+}
+
+function getTime(article) {
+    var abbr = article.querySelector('abbr')
+    if (!abbr) {
+        return ''
+    }
+    return abbr.innerText
 }
 
 function getRecipient(article) {
@@ -69,6 +84,63 @@ function getRecipient(article) {
     }
 
     return recipient
+}
+
+function getReactions(footer) {
+    if (!footer) {
+        return {}
+    }
+
+    var reactionsBar = getReactionBar(footer)
+    if (!reactionsBar) {
+        return {}
+    }
+
+    var reactionsContainer = reactionsBar.querySelector('[data-sigil=reactions-sentence-container]')
+    if (!reactionsContainer) {
+        return {}
+    }
+
+    var reactionTypes = []
+    var underlines = reactionsContainer.querySelectorAll('u')
+    for (var i = 0; i < underlines.length; i++) {
+        var underline = underlines[i]
+        reactionTypes.push(underline.textContent)
+    }
+
+    var reactionsContainerLastChild = reactionsContainer.children[reactionsContainer.children.length - 1]
+    if (!reactionsContainerLastChild) {
+        return {}
+    }
+
+    var count = parseInt(reactionsContainerLastChild.textContent)
+
+    return {
+        'types': reactionTypes,
+        'count': count
+    }
+}
+
+function getCommentCount(footer) {
+    if (!footer) {
+        return null
+    }
+
+    var reactionsBar = getReactionBar(footer)
+    if (!reactionsBar) {
+        return null
+    }
+
+    var reactionsBarLastChild = reactionsBar.children[reactionsBar.children.length - 1]
+    if (!reactionsBarLastChild) {
+        return null
+    }
+
+    return parseInt(reactionsBarLastChild.textContent)
+}
+
+function getReactionBar(footer) {
+    return footer.querySelector('[data-sigil=reactions-bling-bar]')
 }
 
 function getLike(footer) {
