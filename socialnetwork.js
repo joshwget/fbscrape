@@ -24,9 +24,9 @@ function getPosts() {
             'poster': poster,
             'time': time,
             'recipient': recipient,
-            'raw_text': rawText,
+            'rawText': rawText,
             'reactions': reactions,
-            'comment_count': commentCount,
+            'commentCount': commentCount,
             'like': like,
             'comment': comment
         })
@@ -47,7 +47,7 @@ function getPoster(article) {
 
     return {
         'name': name,
-        'picture_url': pictureUrl
+        'pictureUrl': pictureUrl
     }
 }
 
