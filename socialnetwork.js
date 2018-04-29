@@ -54,7 +54,7 @@ function getPoster(article) {
 function getTime(article) {
     var abbr = article.querySelector('abbr')
     if (!abbr) {
-        return ''
+        return null
     }
     return abbr.innerText
 }
@@ -62,10 +62,8 @@ function getTime(article) {
 function getRecipient(article) {
     var firstSpan = article.querySelector('span')
     if (!firstSpan) {
-        return {}
+        return null
     }
-
-    var recipient = {}
 
     var spanLinks = firstSpan.querySelectorAll('a')
     for (var i = 0; i < spanLinks.length; i++) {
@@ -73,7 +71,7 @@ function getRecipient(article) {
         if (i == spanLinks.length - 1) {
             var href = spanLink.getAttribute('href')
             if (href.startsWith('/groups/')) {
-                recipient = {
+                return {
                     'type': 'group',
                     'name': spanLink.innerText,
                     'url': href
@@ -83,22 +81,22 @@ function getRecipient(article) {
         }
     }
 
-    return recipient
+    return null
 }
 
 function getReactions(footer) {
     if (!footer) {
-        return {}
+        return null
     }
 
     var reactionsBar = getReactionBar(footer)
     if (!reactionsBar) {
-        return {}
+        return null
     }
 
     var reactionsContainer = reactionsBar.querySelector('[data-sigil=reactions-sentence-container]')
     if (!reactionsContainer) {
-        return {}
+        return null
     }
 
     var reactionTypes = []
@@ -110,7 +108,7 @@ function getReactions(footer) {
 
     var reactionsContainerLastChild = reactionsContainer.children[reactionsContainer.children.length - 1]
     if (!reactionsContainerLastChild) {
-        return {}
+        return null
     }
 
     var count = parseInt(reactionsContainerLastChild.textContent)
@@ -153,7 +151,7 @@ function getComment(footer) {
 
 function getFooterItem(footer, itemText) {
     if (!footer) {
-        return {}
+        return null
     }
 
     var item = {}
