@@ -6,7 +6,7 @@ function getPosts() {
         var article = articles[i]
 
         var poster = getPoster(article)
-        //var recipient = getRecipient(article)
+        var recipient = getRecipient(article)
 
         //var footer = article.parentElement.querySelector('footer')
 
@@ -18,7 +18,7 @@ function getPosts() {
         posts.push({
             'key': article.parentElement.id,
             'poster': poster,
-            //'recipient': recipient,
+            'recipient': recipient,
             'raw_text': rawText,
             //'like': like,
             //'comment': comment
@@ -45,8 +45,13 @@ function getPoster(article) {
 }
 
 function getRecipient(article) {
-    var recipient = {}
     var firstSpan = article.querySelector('span')
+    if (!firstSpan) {
+        return {}
+    }
+
+    var recipient = {}
+
     var spanLinks = firstSpan.querySelectorAll('a')
     for (var i = 0; i < spanLinks.length; i++) {
         var spanLink = spanLinks[i]
@@ -62,6 +67,7 @@ function getRecipient(article) {
             }
         }
     }
+
     return recipient
 }
 
