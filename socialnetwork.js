@@ -104,3 +104,10 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this
     return target.split(search).join(replacement)
 }
+
+function onFeedChange(f) {
+    var observer = new MutationObserver(f)
+    observer.observe(document.querySelector("#MNewsFeed"), {
+        childList: true
+    })
+}
