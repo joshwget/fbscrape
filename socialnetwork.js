@@ -8,10 +8,10 @@ function getPosts() {
         var poster = getPoster(article)
         var recipient = getRecipient(article)
 
-        //var footer = article.parentElement.querySelector('footer')
+        var footer = article.parentElement.querySelector('footer')
 
-        //var like = getLike(footer)
-        //var comment = getComment(footer)
+        var like = getLike(footer)
+        var comment = getComment(footer)
 
         var rawText = article.childNodes[1].innerText
 
@@ -20,8 +20,8 @@ function getPosts() {
             'poster': poster,
             'recipient': recipient,
             'raw_text': rawText,
-            //'like': like,
-            //'comment': comment
+            'like': like,
+            'comment': comment
         })
     }
 
@@ -80,7 +80,12 @@ function getComment(footer) {
 }
 
 function getFooterItem(footer, itemText) {
+    if (!footer) {
+        return {}
+    }
+
     var item = {}
+
     var footerLinks = footer.querySelectorAll('a')
     for (var i = 0; i < footerLinks.length; i++) {
         var footerLink = footerLinks[i]
@@ -91,6 +96,7 @@ function getFooterItem(footer, itemText) {
             break
         }
     }
+
     return item
 }
 
