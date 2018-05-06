@@ -170,9 +170,33 @@ function getFooterItem(footer, itemText) {
     return item
 }
 
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this
-    return target.split(search).join(replacement)
+function getNotifications() {
+    var notifications = []
+
+    var notifs = document.querySelectorAll('.aclb')
+    for (var i = 0; i < notifs.length; i++) {
+        var notif = notifs[i]
+
+        var text = notif.querySelector('.c')
+        var time = notif.querySelector('abbr')
+
+        if (!text || !time) {
+            continue
+        }
+
+        var textInnerText = text.innerText
+        var timeInnerText = time.innerText
+
+        // TODO: this is hacky
+        textInnerText = textInnerText.slice(0, textInnerText.length - timeInnerText.length - 2)
+
+        notifications.push({
+            'text': textInnerText,
+            'time': timeInnerText,
+        })
+    }
+
+    return notifications
 }
 
 function onFeedChange(f) {
@@ -180,4 +204,9 @@ function onFeedChange(f) {
     observer.observe(document.querySelector("#MNewsFeed"), {
         childList: true
     })
+}
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this
+    return target.split(search).join(replacement)
 }
