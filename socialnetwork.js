@@ -45,9 +45,13 @@ function getPoster(article) {
     var firstStrong = article.querySelector('strong')
     var name = firstStrong.innerText
 
+    var link = firstStrong.querySelector('a')
+    var url = link.getAttribute('href')
+
     return {
         'name': name,
-        'pictureUrl': pictureUrl
+        'pictureUrl': pictureUrl,
+        'url': url
     }
 }
 
