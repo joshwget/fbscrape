@@ -115,11 +115,11 @@ function getReactions(footer) {
         return null
     }
 
-    var count = parseInt(reactionsContainerLastChild.textContent)
+    var quantityDescription = reactionsContainerLastChild.textContent
 
     return {
         'types': reactionTypes,
-        'count': count
+        'quantityDescription': quantityDescription
     }
 }
 
