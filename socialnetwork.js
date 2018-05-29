@@ -174,6 +174,35 @@ function getFooterItem(footer, itemText) {
     return item
 }
 
+function getProfile() {
+    var coverSection = document.querySelector('#m-timeline-cover-section')
+
+    if (!coverSection) {
+        return null
+    }
+
+    var iElements = coverSection.querySelectorAll('i')
+    var coverPhoto = null
+    var profilePhoto = null
+    if (iElements.length > 0) {
+        var style = iElements[0].getAttribute('style')
+        coverPhoto = parseStyleForUrl(style)
+    }
+    if (iElements.length > 1) {
+        var style = iElements[1].getAttribute('style')
+        profilePhoto = parseStyleForUrl(style)
+    }
+
+    var firstH3 = coverSection.querySelector('h3')
+    var name = firstH3.innerText
+
+    return {
+        name: name,
+        coverPhoto: coverPhoto,
+        profilePhoto: profilePhoto
+    }
+}
+
 function getNotifications() {
     var notifications = []
 
@@ -213,4 +242,12 @@ function onFeedChange(f) {
 String.prototype.replaceAll = function(search, replacement) {
     var target = this
     return target.split(search).join(replacement)
+}
+
+function parseStyleForUrl(style) {
+    var url = style.split('\'')[1]
+    url = url.replaceAll('\\3a ', ':')
+    url = url.replaceAll('\\3d ', '=')
+    url = url.replaceAll('\\26 ', '&')
+    return url
 }
