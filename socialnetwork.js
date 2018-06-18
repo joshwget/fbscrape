@@ -18,6 +18,7 @@ function getPosts() {
         var comment = getComment(footer)
 
         var rawText = article.childNodes[1].innerText
+        var link = getLink(article)
 
         posts.push({
             'key': article.parentElement.id,
@@ -25,6 +26,7 @@ function getPosts() {
             'time': time,
             'recipient': recipient,
             'rawText': rawText,
+            'link': link,
             'reactions': reactions,
             'commentCount': commentCount,
             'like': like,
@@ -80,7 +82,32 @@ function getRecipient(article) {
                     'name': spanLink.innerText,
                     'url': href
                 }
-                break
+            }
+        }
+    }
+
+    return null
+}
+
+function getLink(article) {
+    var sections = article.querySelectorAll('section')
+    for (var i = 0; i < sections.length; i++) {
+        var section = sections[i]
+        var dataStore = section.getAttribute('data-store')
+        if (!dataStore) {
+            continue
+        }
+        dataStore = JSON.parse(dataStore)
+
+        if ('globalShareID' in dataStore) {
+            var firstI = section.querySelector('i')
+            var pictureUrl = parseStyleForUrl(firstI.getAttribute('style'))
+            var firstH4 = section.querySelector('h4')
+            var firstH3 = section.querySelector('h3')
+            return {
+                'pictureUrl': pictureUrl,
+                'baseUrl': firstH4.innerText,
+                'title': firstH3.innerText
             }
         }
     }
@@ -249,5 +276,6 @@ function parseStyleForUrl(style) {
     url = url.replaceAll('\\3a ', ':')
     url = url.replaceAll('\\3d ', '=')
     url = url.replaceAll('\\26 ', '&')
+    url = url.replaceAll('\\25 ', '%')
     return url
 }
